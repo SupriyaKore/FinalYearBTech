@@ -1,0 +1,23 @@
+<?php
+     
+    require 'database.php';
+ 
+    if ( !empty($_POST)) {
+        // keep track post values
+        $name = $_POST['name'];
+		$id = $_POST['id'];
+        $email = $_POST['email'];
+        $mobile = $_POST['mobile'];
+		$carnumber = $_POST['carnumber'];
+		$dateandtime = $_POST['dateandtime'];
+        
+		// insert data
+        $pdo = Database::connect();
+		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$sql = "INSERT INTO table_nodemcu_rfidrc522_mysql (name,id,carnumber,dateandtime,email,mobile) values(?, ?, ?, ?, ?,?)";
+		$q = $pdo->prepare($sql);
+		$q->execute(array($name,$id,$carnumber,$dateandtime,$email,$mobile));
+		Database::disconnect();
+		header("Location: user data.php");
+    }
+?>
